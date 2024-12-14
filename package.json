@@ -1,0 +1,72 @@
+{
+  "name": "react-konva-interactive-stage",
+  "version": "1.0.1",
+  "description": "A React component for interactive and zoomable Konva stage",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm run lint && pnpm run typecheck",
+    "prepare": "pnpm run build"
+  },
+  "keywords": [
+    "react",
+    "konva",
+    "canvas",
+    "zoom",
+    "pan",
+    "interactive"
+  ],
+  "author": "Pierre Borckmans",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierre-borckmans/react-konva-interactive-stage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pierre-borckmans/react-konva-interactive-stage/issues"
+  },
+  "homepage": "https://github.com/pierre-borckmans/react-konva-interactive-stage#readme",
+  "peerDependencies": {
+    "konva": "^8.0.1 || ^7.2.5 || ^9.0.0",
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0",
+    "react-konva": "^19.0.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/jest": "^29.0.0",
+    "@types/lodash.isequal": "^4.5.8",
+    "@types/lodash.throttle": "^4.1.9",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.0.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@use-gesture/react": "^10.3.1",
+    "lethargy-ts": "^0.1.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.throttle": "^4.1.1"
+  }
+}
