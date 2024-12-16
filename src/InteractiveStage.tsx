@@ -6,7 +6,6 @@ import { InteractiveStageOptions, InteractiveStageProps } from "./types";
 import { useResizeObserver } from "./hooks/useResizeObserver";
 import useCallbacks from "./hooks/useCallbacks";
 
-const ABSOLUTE_MIN_ZOOM = 1;
 const ABSOLUTE_MAX_ZOOM = 100;
 const ABSOLUTE_MIN_ZOOM_SPEED = 0.1;
 const ABSOLUTE_MAX_ZOOM_SPEED = 10;
@@ -14,11 +13,10 @@ const ABSOLUTE_MIN_PAN_SPEED = 0.1;
 const ABSOLUTE_MAX_PAN_SPEED = 10;
 
 const defaultOptions: Required<InteractiveStageOptions> = {
-  minZoom: ABSOLUTE_MIN_ZOOM,
   maxZoom: ABSOLUTE_MAX_ZOOM,
   zoomSpeed: 5,
   panSpeed: 1,
-  zoomPanTransitionDelay: 400,
+  zoomPanTransitionDelay: 200,
   loadingDelay: 500,
   clampPosition: true,
   callbacksThrottleMs: 25,
@@ -57,7 +55,6 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
     ...propsOptions,
   };
   // Enforce zoom constraints
-  options.minZoom = Math.max(options.minZoom, ABSOLUTE_MIN_ZOOM);
   options.maxZoom = Math.min(options.maxZoom, ABSOLUTE_MAX_ZOOM);
   // Enforce pan speed constraints
   options.panSpeed = Math.max(options.panSpeed, ABSOLUTE_MIN_PAN_SPEED);

@@ -56,18 +56,17 @@ export type InteractiveStageRef = RefObject<InteractiveStageType>;
 export interface InteractiveStageOptions {
   /** Delay in milliseconds before showing loading state. Default: 500 */
   loadingDelay?: number;
-  /** Minimum zoom level. Will be clamped to a minimum of 1 (100% scale). Default: 1 */
-  minZoom?: number;
   /** Maximum zoom level. Will be clamped to a maximum of 10 (1000% scale). Default: 3 */
   maxZoom?: number;
   /** Speed of zooming. Default: 5 */
   zoomSpeed?: number;
   /** Speed of panning. Default: 1 */
   panSpeed?: number;
-  /** Delay in milliseconds when transitioning between zoom and pan with mouse wheel. Default: 200 */
-  zoomPanTransitionDelay?: number;
   /** Whether to clamp the position to the bounds. Default: true */
   clampPosition?: boolean;
+
+  /** Delay in milliseconds when transitioning between zoom and pan with mouse wheel. Default: 200 */
+  zoomPanTransitionDelay?: number;
   /** Throttle callbacks in milliseconds. Default: 25 */
   callbacksThrottleMs?: number;
   /** Whether to show debug borders. Default: false */
