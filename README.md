@@ -4,7 +4,7 @@ A React component for creating interactive and zoomable Konva stages with smooth
 
 Built on top of [Konva](https://konvajs.org/) and [React-Konva](https://github.com/konvajs/react-konva).
 
-[Live demo here](react-konva-interactive-stage.up.railway.app)
+[Live demo here](https://react-konva-interactive-stage.up.railway.app/)
 
 ## Features
 
