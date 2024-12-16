@@ -7,9 +7,9 @@ import { Header } from "./components/Header";
 import { InstructionsPanel } from "./components/InstructionsPanel";
 import { color, StageContent } from "./components/StageContent";
 import { useDarkMode } from "./hooks/useDarkMode";
-import { Bounds, VisibleRect } from "../../src/types.ts";
 import StatePanel from "./components/StatePanel.tsx";
 import { Circle } from "react-konva";
+import { Bounds, VisibleRect } from "react-konva-interactive-stage/dist/types";
 
 function App() {
   const stageRef = useRef<InteractiveStageType>(null);

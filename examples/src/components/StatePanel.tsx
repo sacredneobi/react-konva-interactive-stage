@@ -1,4 +1,8 @@
-import { Bounds, Point, VisibleRect } from "../../../src/types";
+import {
+  Bounds,
+  Point,
+  VisibleRect,
+} from "react-konva-interactive-stage/dist/types";
 
 interface StatePanelProps {
   position: Point;
