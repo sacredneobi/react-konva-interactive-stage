@@ -2,7 +2,7 @@
 
 A React component for creating interactive and zoomable Konva stages with smooth pan and zoom capabilities.
 
-Built on top of [Konva](https://konvajs.org/) and [React-Konva](https://react-konva.js.org/).
+Built on top of [Konva](https://konvajs.org/) and [React-Konva](https://github.com/konvajs/react-konva).
 
 [Live demo here](react-konva-interactive-stage.up.railway.app)
 
