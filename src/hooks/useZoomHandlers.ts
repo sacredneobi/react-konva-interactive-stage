@@ -30,7 +30,7 @@ export function useZoomHandlers({
   stageRef,
   options,
 }: Props) {
-  const { minZoom, maxZoom, zoomSpeed } = options;
+  const { maxZoom, zoomSpeed } = options;
 
   // Update reset scale whenever container or bounds changes
   const { scale: resetScale } = getResetTransform(bounds, container);
@@ -53,7 +53,7 @@ export function useZoomHandlers({
 
       // Clamp scale relative to reset scale
       const clampedScale = Math.min(
-        Math.max(newScale, resetScale * minZoom),
+        Math.max(newScale, resetScale),
         resetScale * maxZoom,
       );
 
@@ -70,16 +70,7 @@ export function useZoomHandlers({
       setScale(clampedScale);
       setPosition(newPos, clampedScale);
     },
-    [
-      scale,
-      position,
-      setScale,
-      setPosition,
-      maxZoom,
-      minZoom,
-      zoomSpeed,
-      resetScaleRef,
-    ],
+    [scale, position, setScale, setPosition, maxZoom, zoomSpeed, resetScaleRef],
   );
 
   const handleReset = useCallback(
@@ -143,10 +134,7 @@ export function useZoomHandlers({
       let newScale = Math.min(newScaleX, newScaleY);
 
       // Clamp scale relative to reset scale
-      newScale = Math.min(
-        Math.max(newScale, resetScale * minZoom),
-        resetScale * maxZoom,
-      );
+      newScale = Math.min(Math.max(newScale, resetScale), resetScale * maxZoom);
 
       // Calculate center position
       const newX =
@@ -190,7 +178,6 @@ export function useZoomHandlers({
       stageRef,
       container.width,
       container.height,
-      minZoom,
       maxZoom,
       scale,
       position.x,
