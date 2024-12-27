@@ -1,18 +1,28 @@
-import { useEffect, useState, useCallback } from "react";
-import { Bounds, InteractiveStageRef, Point } from "../types";
+import React, { useEffect, useState, useCallback, ReactElement } from "react";
+import {
+  Bounds,
+  InteractiveStageRef,
+  InteractiveStageRenderProps,
+  Point,
+} from "../types";
 import { Node } from "konva/lib/Node";
 import Konva from "konva";
+import useEvents from "./useEvents";
 
 export function useStageBounds({
   stageRef,
   loading,
   boundsWidth,
   boundsHeight,
+  children,
 }: {
   stageRef: InteractiveStageRef;
   loading?: boolean;
   boundsWidth?: number;
   boundsHeight?: number;
+  children:
+    | React.ReactNode
+    | ((props: InteractiveStageRenderProps) => ReactElement);
 }) {
   const [bounds, setBounds] = useState<Bounds>({
     x: 0,
@@ -74,6 +84,20 @@ export function useStageBounds({
   useEffect(() => {
     updateBounds();
   }, [loading, updateBounds]);
+
+  useEvents({
+    stageRef,
+    children,
+    onNodesAdded: () => {
+      updateBounds();
+    },
+    onNodesRemoved: () => {
+      updateBounds();
+    },
+    onNodesModified: () => {
+      updateBounds();
+    },
+  });
 
   return {
     bounds,

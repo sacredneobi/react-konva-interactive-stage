@@ -12,6 +12,7 @@ Built on top of [Konva](https://konvajs.org/) and [React-Konva](https://github.c
 - 🎯 Click-to-zoom on specific elements
 - 🔄 Automatic bounds calculation
 - 📱 Responsive container
+- 🗺️ Customizable minimap navigation with live content preview
 - 🎯 TypeScript support
 
 ## Installation
@@ -78,8 +79,40 @@ interface InteractiveStageOptions {
   panSpeed?: number;        // Pan speed in [1, 10] (default: 1)
   clampPosition?: boolean;  // Prevent panning outside bounds (default: true)
   debug?: boolean;          // Show debug overlay (default: false)
+  minimap?: {
+    show?: boolean;         // Show/hide the minimap (default: true)
+    size?: number;          // Size relative to container in [0, 1] (default: 0.15)
+    position?: Point;       // Initial position (default: { x: 0, y: 0 })
+    containerStyle?: React.CSSProperties;  // Styles for minimap container
+    visibleRectStyle?: React.CSSProperties;  // Styles for visible area indicator
+  }
 }
 ```
+
+Example with custom minimap styling:
+
+```tsx
+<InteractiveStage
+  options={{
+    minimap: {
+      size: 0.2,  // 20% of container size
+      containerStyle: {
+        backgroundColor: '#0007',
+        borderRadius: 5,
+      },
+      visibleRectStyle: {
+        backgroundColor: '#7772',
+        borderRadius: 5,
+      },
+      position: { x: 20, y: 20 },  // 20px from top-left corner
+    },
+  }}
+>
+  {/* ... your stage content ... */}
+</InteractiveStage>
+```
+
+The minimap automatically displays a live preview of your stage content, making it easier to navigate complex scenes. The preview is updated whenever the stage content changes and is automatically scaled to fit within the minimap container while maintaining aspect ratio.
 
 ### Render Props
 
@@ -151,4 +184,4 @@ pnpm typecheck
 
 ## License
 
-MIT © Pierre Borckmans
+MIT Pierre Borckmans

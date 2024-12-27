@@ -10,27 +10,21 @@ import {
 import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
 import Shape = Konva.Shape;
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface StageContentProps {
   isDark: boolean;
   onShapeClick: (e: KonvaEventObject<MouseEvent>) => void;
-  updateBounds: () => void;
   extraShapes: ReactNode[];
 }
 
 export const StageContent = ({
   isDark,
   onShapeClick,
-  updateBounds,
   extraShapes,
 }: StageContentProps) => {
   const [ringExpanded, setRingExpanded] = useState(false);
   const ringRadius = ringExpanded ? 300 : 50;
-
-  useEffect(() => {
-    updateBounds();
-  }, [updateBounds, extraShapes]);
 
   return (
     <Group
@@ -77,7 +71,6 @@ export const StageContent = ({
         onContextMenu={async (e) => {
           e.evt.preventDefault();
           setRingExpanded(!ringExpanded);
-          updateBounds();
         }}
       />
 

@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Stage, Layer, Rect } from "react-konva";
 import Konva from "konva";
 import { useStageTransform } from "./hooks/useStageTransform";
 import { InteractiveStageOptions, InteractiveStageProps } from "./types";
 import { useResizeObserver } from "./hooks/useResizeObserver";
 import useCallbacks from "./hooks/useCallbacks";
+import Minimap from "./minimap/Minimap";
+import { useMinimapPreview } from "./minimap/useMinimapPreview";
 
 const ABSOLUTE_MAX_ZOOM = 100;
 const ABSOLUTE_MIN_ZOOM_SPEED = 0.1;
@@ -15,12 +17,26 @@ const ABSOLUTE_MAX_PAN_SPEED = 10;
 const defaultOptions: Required<InteractiveStageOptions> = {
   maxZoom: ABSOLUTE_MAX_ZOOM,
   zoomSpeed: 5,
+  zoomAnimationDuration: 0.3,
   panSpeed: 1,
   zoomPanTransitionDelay: 200,
   loadingDelay: 500,
   clampPosition: true,
   callbacksThrottleMs: 25,
   debug: false,
+  minimap: {
+    show: true,
+    size: 0.15,
+    containerStyle: {
+      backgroundColor: "#0007",
+      borderRadius: 5,
+    },
+    visibleRectStyle: {
+      backgroundColor: "#7772",
+      borderRadius: 5,
+    },
+    position: { x: 0, y: 0 },
+  },
 };
 
 const InteractiveStage: React.FC<InteractiveStageProps> = ({
@@ -48,6 +64,7 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dimensions = useResizeObserver(containerRef);
+  const [ready, setReady] = useState(false);
 
   // Merge default options with props options
   const options: Required<InteractiveStageOptions> = {
@@ -64,7 +81,6 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
   options.zoomSpeed = Math.min(options.zoomSpeed, ABSOLUTE_MAX_ZOOM_SPEED);
 
   const loading = stageRef.current === null;
-
   const { width, height } = dimensions;
 
   const container = {
@@ -75,6 +91,7 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
   const {
     bounds,
     updateBounds,
+    initialScale,
     scale,
     position,
     handleDragStart,
@@ -85,6 +102,7 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
     zoomToElement,
     visibleRect,
     wheelContainerRef,
+    isDragging,
   } = useStageTransform({
     container,
     boundsWidth,
@@ -92,6 +110,17 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
     options,
     stageRef,
     loading,
+    children,
+  });
+
+  const { preview: stagePreview } = useMinimapPreview({
+    stageRef,
+    bounds,
+    container,
+    initialScale,
+    enabled: !!options.minimap.show,
+    ready,
+    children,
   });
 
   // reset zoom on double click
@@ -112,6 +141,9 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
           opacity: 1,
           duration: 0.2,
           easing: Konva.Easings.EaseInOut,
+          onFinish: () => {
+            setReady(true);
+          },
         });
       }
     }, options.loadingDelay);
@@ -131,6 +163,7 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
   });
 
   const renderProps = {
+    container,
     zoomToElement,
     resetZoom,
     loading,
@@ -148,11 +181,17 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
     <div
       ref={containerRef}
       className={className}
-      style={{ position: "relative", width: "100%", height: "100%", ...style }}
+      style={{ width: "100%", height: "100%", ...style }}
     >
-      <div style={{ width, height }} ref={wheelContainerRef} className="border">
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "relative",
+        }}
+        ref={wheelContainerRef}
+      >
         <Stage
-          {...stageProps}
           ref={stageRef}
           width={dimensions.width}
           height={dimensions.height}
@@ -165,6 +204,8 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
           scaleX={scale}
           scaleY={scale}
           opacity={0}
+          style={{ cursor: isDragging ? "grabbing" : "default" }}
+          {...stageProps}
         >
           {options.debug && (
             <Layer id="debug-layer">
@@ -180,10 +221,26 @@ const InteractiveStage: React.FC<InteractiveStageProps> = ({
               />
             </Layer>
           )}
+
           <Layer id="interactive-layer">
             {typeof children === "function" ? children(renderProps) : children}
           </Layer>
         </Stage>
+
+        {options.minimap.show && (
+          <Minimap
+            ready={ready}
+            container={container}
+            initialScale={initialScale}
+            bounds={bounds}
+            visibleRect={visibleRect}
+            minimapPct={options.minimap.size || 0.2}
+            containerStyle={options.minimap.containerStyle}
+            visibleRectStyle={options.minimap.visibleRectStyle}
+            initialPosition={options.minimap.position}
+            stagePreview={stagePreview}
+          />
+        )}
       </div>
     </div>
   );

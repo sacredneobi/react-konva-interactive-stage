@@ -1,12 +1,17 @@
-import { useCallback, useMemo, useState } from "react";
+import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import {
   Dimensions,
   Point,
   InteractiveStageOptions,
   InteractiveStageRef,
+  InteractiveStageRenderProps,
 } from "../types";
 import { useZoomHandlers } from "./useZoomHandlers";
-import { calculateVisibleRect, clampPosition } from "./transform-utils";
+import {
+  calculateVisibleRect,
+  clampPosition,
+  getResetTransform,
+} from "./transform-utils";
 import { useStageResize } from "./useStageResize";
 import { useStageBounds } from "./useStageBounds";
 import { useWheelHandlers } from "./useWheelHandlers";
@@ -20,6 +25,9 @@ interface Props {
   options: Required<InteractiveStageOptions>;
   stageRef: InteractiveStageRef;
   loading: boolean;
+  children:
+    | React.ReactNode
+    | ((props: InteractiveStageRenderProps) => ReactElement);
 }
 
 export function useStageTransform({
@@ -29,6 +37,7 @@ export function useStageTransform({
   options,
   stageRef,
   loading,
+  children,
 }: Props) {
   const [scale, setScale] = useState(1);
   const [position, _setPosition] = useState<Point>({ x: 0, y: 0 });
@@ -39,6 +48,7 @@ export function useStageTransform({
     loading,
     boundsWidth,
     boundsHeight,
+    children,
   });
 
   const clampAndSetPosition = useCallback(
@@ -97,7 +107,7 @@ export function useStageTransform({
 
   // Reset zoom when bounds change from null to real bounds
   useDeepEffect(() => {
-    if (zoom !== 1) return;
+    if (zoom !== 1 || bounds.width === 1) return;
     resetZoom({ animate: true });
   }, [bounds]);
 
@@ -126,10 +136,16 @@ export function useStageTransform({
     [position.x, position.y, scale, container.width, container.height],
   );
 
+  const initialTransform = useMemo(() => {
+    return getResetTransform(bounds, container);
+  }, [bounds, container]);
+
   return {
     wheelContainerRef,
 
+    initialScale: initialTransform.scale,
     scale,
+    initialPosition: initialTransform.position,
     position,
 
     // stage bounds and visible rect

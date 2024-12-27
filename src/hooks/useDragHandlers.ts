@@ -64,15 +64,6 @@ export function useDragHandlers({
     [isDragging, position, setPosition],
   );
 
-  useEffect(() => {
-    const canvas = document.querySelector(
-      ".konvajs-content canvas",
-    ) as HTMLCanvasElement;
-    if (canvas) {
-      canvas.style.cursor = isDragging ? "grabbing" : "";
-    }
-  }, [isDragging]);
-
   return {
     handleDragStart,
     handleDragEnd,
