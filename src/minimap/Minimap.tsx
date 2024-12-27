@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, Point, VisibleRect, MinimapProps } from "../types";
+import { MinimapProps } from "../types";
 import { useMinimapDrag } from "./useMinimapDrag";
 
 /**

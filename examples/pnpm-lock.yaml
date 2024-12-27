@@ -21,8 +21,8 @@ importers:
         specifier: ^19.0.1
         version: 19.0.1(@types/react@18.3.16)(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-konva-interactive-stage:
-        specifier: ^1.0.2
-        version: 1.0.2(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react-konva@19.0.1(@types/react@18.3.16)(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+        specifier: latest
+        version: 1.0.4(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react-konva@19.0.1(@types/react@18.3.16)(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
     devDependencies:
       '@types/node':
         specifier: latest
@@ -1188,8 +1188,8 @@ packages:
     peerDependencies:
       react: ^19.0.0
 
-  react-konva-interactive-stage@1.0.2:
-    resolution: {integrity: sha512-qIOfg5c1ycGBZr/3BU4TBt4P2BbeBTI06Csh/xcfBlwJy9EgG8ze/QgLE6hRmRFHUPcbO3xknU+LO7y4MzRV9g==}
+  react-konva-interactive-stage@1.0.4:
+    resolution: {integrity: sha512-D7vx3ECgVgk8m6ftgUUlbVXcLZUTerna5kwiPjh4+qhskvgE2K5RwsJIioiUxjEYBOHhea6FTXUr/p51zFLcjQ==}
     peerDependencies:
       konva: ^8.0.1 || ^7.2.5 || ^9.0.0
       react: ^18.3.1 || ^19.0.0
@@ -2500,7 +2500,7 @@ snapshots:
       react: 19.0.0
       scheduler: 0.25.0
 
-  react-konva-interactive-stage@1.0.2(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react-konva@19.0.1(@types/react@18.3.16)(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
+  react-konva-interactive-stage@1.0.4(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react-konva@19.0.1(@types/react@18.3.16)(konva@9.3.16)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
     dependencies:
       '@use-gesture/react': 10.3.1(react@19.0.0)
       konva: 9.3.16
